@@ -1,0 +1,74 @@
+services:
+  web:
+    container_name: coinkeeper_web
+    command: "run"
+    build:
+      context: ..
+      dockerfile: ./.docker/web/Dockerfile
+    restart: unless-stopped
+    networks: [ "coinkeeper" ]
+    hostname: web
+    ports: [ "127.0.0.1:8000:8000" ]
+    env_file: ./web/.env
+    volumes:
+      - ..:/application/src/
+
+  superset:
+    container_name: coinkeeper_superset
+    command: /bin/bash -c "chmod +x /app/init.sh && /app/init.sh"
+    build:
+      context: .
+      dockerfile: superset/Dockerfile
+    restart: unless-stopped
+    networks: [ "coinkeeper" ]
+    hostname: superset
+    ports: [ "127.0.0.1:8088:8088" ]
+    env_file: superset/.env
+    environment:
+      SUPERSET_CONFIG_PATH: /app/config.py
+    volumes:
+      - ./superset/config.py:/app/config.py
+      - ./superset/init.sh:/app/init.sh
+      - coinkeeper_superset:/app/superset_home
+    depends_on:
+      pg:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  pg:
+    image: postgres:16
+    container_name: coinkeeper_pg
+    networks: [ "coinkeeper" ]
+    hostname: pg
+    ports: [ "127.0.0.1:5421:5432" ]
+    environment:
+      - POSTGRES_DB=main
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+    volumes:
+      - ./pg/schema.sql:/tmp/schema.sql
+      - coinkeeper_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U main" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7
+    container_name: coinkeeper_redis
+    networks: [ "coinkeeper" ]
+    hostname: redis
+    ports: [ "127.0.0.1:6369:6379" ]
+    restart: unless-stopped
+
+volumes:
+  coinkeeper_pg:
+    name: coinkeeper_pg
+  coinkeeper_superset:
+    name: coinkeeper_superset
+
+networks:
+  coinkeeper:
+    name: coinkeeper
