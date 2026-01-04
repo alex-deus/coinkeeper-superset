@@ -27,7 +27,6 @@ env = environ.Env(
     BASE_URL=(str, None),
     CORS_ALLOWED_ORIGINS=(list, None),
     CSRF_TRUSTED_ORIGINS=(list, None),
-    #
     DB_DSN=(str, None),
 )
 
