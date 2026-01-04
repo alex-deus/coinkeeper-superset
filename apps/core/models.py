@@ -24,6 +24,7 @@ class Category(models.Model):
     class Meta:
         app_label = "core"
         ordering = ["name"]
+        verbose_name_plural = "Categories"
 
 
 class Tag(models.Model):
