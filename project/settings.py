@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     "django.contrib.staticfiles",
     "solo",
+    "django_essentials_kit",
 ]
 
 MIDDLEWARE = [
