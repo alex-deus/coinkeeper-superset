@@ -3,10 +3,8 @@ name = "CoinKeeper"
 package-mode = false
 version = "0.1.0"
 description = ""
-license = {text = "MIT"}
-authors = [
-    {name = "Alex Deus"}
-]
+license = "MIT"
+authors = [ "Alex Deus" ]
 
 [tool.poetry.dependencies]
 python = "^3.11"
