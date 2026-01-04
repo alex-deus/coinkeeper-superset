@@ -46,7 +46,17 @@ class HasTagsFilter(admin.SimpleListFilter):
 
 @admin.register(models.Transaction)
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ["id", "type", "account", "category", "amount_converted", "currency_to", "created", "get_tags"]
+    list_display = [
+        "id",
+        "account",
+        "amount",
+        "currency_from",
+        "category",
+        "amount_converted",
+        "currency_to",
+        "created",
+        "get_tags",
+    ]
     list_filter = [
         (
             "created",
