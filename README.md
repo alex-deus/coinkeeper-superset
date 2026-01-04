@@ -34,3 +34,13 @@ docker compose -f .docker/compose.yml exec pg bash -c 'psql -U "$POSTGRES_USER" 
 ## Access WEB Interfaces
 - Django Admin: [localhost:8000/admin/](http://localhost:8000/admin/) - admin / admin
 - Apache Superset [localhost:8088](http://localhost:8088) - admin / admin
+
+## Create dataset at Superset
+1. Open [creating form](http://127.0.0.1:8088/dataset/add/).
+2. Compete form
+    - Database: `main`
+    - Schema: `public`
+    - Table: `core_transaction_analytics`
+3. Press button `Create and explore dataset`
+
+[![Dashboard](docs/images/create-dataset.png)](docs/images/create-dataset.png)
