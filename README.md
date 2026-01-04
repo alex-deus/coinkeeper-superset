@@ -31,6 +31,6 @@ docker compose -f .docker/compose.yml exec pg bash -c 'psql -U "$POSTGRES_USER" 
 2. Place the exported file in the project root as rows.csv.
 3. Run the import command: `docker compose -f .docker/compose.yml exec web ./manage.py import_transactions`
 
-## Access Web Interfaces
+## Access WEB Interfaces
 - Django Admin: [localhost:8000/admin/](http://localhost:8000/admin/) - admin / admin
 - Apache Superset [localhost:8088](http://localhost:8088) - admin / admin
