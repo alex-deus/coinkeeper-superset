@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from admin_auto_filters.filters import AutocompleteFilterFactory
+from csvexport.actions import csvexport
 from rangefilter.filters import DateRangeFilterBuilder, NumericRangeFilterBuilder
 
 from django.contrib import admin
@@ -46,6 +47,18 @@ class HasTagsFilter(admin.SimpleListFilter):
 
 @admin.register(models.Transaction)
 class TransactionAdmin(admin.ModelAdmin):
+    actions = [csvexport]
+    csvexport_selected_fields = csvexport_export_fields = [
+        "id",
+        "created",
+        "account.name",
+        "amount",
+        "currency_from",
+        "category.name",
+        "amount_converted",
+        "currency_to",
+        "note",
+    ]
     list_display = [
         "id",
         "account",

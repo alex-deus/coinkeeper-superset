@@ -59,6 +59,7 @@ CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
 
 INSTALLED_APPS = [
     "admin_auto_filters",
+    "csvexport",
     "rangefilter",
     "apps.core.apps.CoreConfig",
     "django.contrib.admin",
@@ -158,6 +159,8 @@ LOGGING = {
 APPEND_SLASH = True
 
 LOGIN_URL = "/admin/login/"
+
+CSV_EXPORT_ESCAPECHAR = '"'
 
 if ROLE == "test":
     PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
