@@ -14,19 +14,24 @@ When running docker compose, the following services are started:
 The setup and usage instructions are provided below.
 
 # How to run
+## Initialization
 - init
 ```shell
 cp .docker/web/.env.debug .docker/web/.env
 cp .docker/superset/.env.debug .docker/superset/.env
+
 docker compose -f .docker/compose.yml up -d --build
+
 docker compose -f .docker/compose.yml exec web ./manage.py migrate
 docker compose -f .docker/compose.yml exec web ./manage.py create_super_user
+
 docker compose -f .docker/compose.yml exec pg bash -c 'psql -U "$POSTGRES_USER" "$POSTGRES_DB" < /tmp/schema.sql'
 ```
-- import data
-  - export from mobile app
-  - put file to ./rows.csv
-  - execute `docker compose -f .docker/compose.yml exec web ./manage.py import_transactions`
+## Import Data
+1. Export transactions from the CoinKeeper mobile application.
+2. Place the exported file in the project root as rows.csv.
+3. Run the import command: `docker compose -f .docker/compose.yml exec web ./manage.py import_transactions`
 
-- open [localhost:8000/admin/](http://localhost:8000/admin/) and sing-in as **admin**:**admin**
-- open [localhost:8088](http://localhost:8088/) and sing-in as **admin**:**admin**
+## Access Web Interfaces
+- Django Admin: [localhost:8000/admin/](http://localhost:8000/admin/) - admin / admin
+- Apache Superset [localhost:8088](http://localhost:8088) - admin / admin
