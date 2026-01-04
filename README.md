@@ -26,6 +26,7 @@ docker compose -f .docker/compose.yml exec web ./manage.py create_super_user
 
 docker compose -f .docker/compose.yml exec pg bash -c 'psql -U "$POSTGRES_USER" "$POSTGRES_DB" < /tmp/schema.sql'
 ```
+
 ## Import Data
 1. Export transactions from the CoinKeeper mobile application.
 2. Place the exported file in the project root as `rows.csv`.
