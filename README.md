@@ -15,7 +15,6 @@ The setup and usage instructions are provided below.
 
 # How to run
 ## Initialization
-- init
 ```shell
 cp .docker/web/.env.debug .docker/web/.env
 cp .docker/superset/.env.debug .docker/superset/.env
