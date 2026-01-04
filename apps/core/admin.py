@@ -62,6 +62,7 @@ class TransactionAdmin(admin.ModelAdmin):
         "currency_to",
         HasTagsFilter,
         AutocompleteFilterFactory(_("Tags"), "tags", use_pk_exact=True),
+        "type",
     ]
     filter_horizontal = ["tags"]
     search_fields = ["account__name", "category__name", "tags__name", "note"]
