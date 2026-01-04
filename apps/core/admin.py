@@ -4,6 +4,7 @@ from admin_auto_filters.filters import AutocompleteFilterFactory
 from rangefilter.filters import DateRangeFilterBuilder, NumericRangeFilterBuilder
 
 from django.contrib import admin
+from django.db.models import QuerySet
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -28,6 +29,21 @@ class TagAdmin(admin.ModelAdmin):
     search_fields = ["name"]
 
 
+class HasTagsFilter(admin.SimpleListFilter):
+    title = _("tags is empty")
+    parameter_name = "has_tags"
+
+    def lookups(self, request, model_admin):
+        return ("yes", _("Yes")), ("no", _("No"))
+
+    def queryset(self, request, queryset) -> QuerySet[models.Transaction]:
+        value = self.value()
+        if value:
+            return queryset.filter(tags__isnull=True if value == "yes" else False)
+
+        return queryset
+
+
 @admin.register(models.Transaction)
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ["id", "type", "account", "category", "amount_converted", "currency_to", "created", "get_tags"]
@@ -44,6 +60,7 @@ class TransactionAdmin(admin.ModelAdmin):
         AutocompleteFilterFactory(_("Category"), "category", use_pk_exact=True),
         ("amount_converted", NumericRangeFilterBuilder(title=_("Amount converted"))),
         "currency_to",
+        HasTagsFilter,
         AutocompleteFilterFactory(_("Tags"), "tags", use_pk_exact=True),
     ]
     filter_horizontal = ["tags"]
