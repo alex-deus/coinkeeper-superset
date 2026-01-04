@@ -21,7 +21,7 @@ cp .docker/superset/.env.debug .docker/superset/.env
 docker compose -f .docker/compose.yml up -d --build
 docker compose -f .docker/compose.yml exec web ./manage.py migrate
 docker compose -f .docker/compose.yml exec web ./manage.py create_super_user
-docker compose -f .docker/compose.yml exec pg bash -c "psql -d $POSTGRES_DB -U $POSTGRES_USER < /tmp/schema.sql"
+docker compose -f .docker/compose.yml exec pg bash -c 'psql -U "$POSTGRES_USER" "$POSTGRES_DB" < /tmp/schema.sql'
 ```
 - import data
   - export from mobile app
